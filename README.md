@@ -78,7 +78,7 @@ bill on its own.
 All computed **in-memory** on-device:
 - **Category breakdown** as a donut + legend (custom-drawn, no chart library).
 - **Income vs. expense trend** over time.
-- **Savings rate**, **top payees**, and spending stats.
+- **Savings rate** and spending stats.
 - Everything is filterable by **time period** (daily…yearly, or your salary cycle) and by
   **account**.
 
@@ -100,13 +100,6 @@ per-account and independently of account details.
   (tombstoned), with single and bulk-delete.
 - One-tap **full reset** to wipe and re-pull everything.
 - Tag or ignore any unrecognized SMS format, and manage all saved formats from Profile.
-
-## 📱 Screenshots
-
-<!-- Add screenshots here for the showcase. Suggested: Home, Insights, Planner, Transactions. -->
-| Home | Insights | Planner |
-|------|----------|---------|
-| _add screenshot_ | _add screenshot_ | _add screenshot_ |
 
 ---
 
