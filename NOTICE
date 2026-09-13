@@ -1,0 +1,11 @@
+Expense Tracker (on-device ICICI SMS expense tracker)
+Copyright (c) 2026 Naveen Reddy
+
+This project began as a fork of the "expense-tracker" project by Nishanth Duvva:
+    https://github.com/nishanthdn96/expense-tracker
+
+The original project's README states it is MIT-licensed. It has been heavily
+rewritten since the fork (SMS parsing engine, accounts, billing planner,
+recurring expenses, transaction splitting, insights, and Room migrations are
+original work). Grateful acknowledgement to the original author for the
+starting point.

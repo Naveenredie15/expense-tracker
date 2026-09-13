@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Expense Tracker</string>
+    <string name="home">Home</string>
+    <string name="transactions">Transactions</string>
+    <string name="categories">Categories</string>
+    <string name="insights">Insights</string>
+    <string name="sms_permission_required">SMS Permission Required</string>
+    <string name="sms_permission_description">Grant SMS permission to automatically track your bank transactions. Your data stays completely private on your device.</string>
+    <string name="grant_permission">Grant Permission</string>
+    <string name="sync_sms">Sync SMS</string>
+    <string name="no_transactions_found">No transactions found</string>
+    <string name="tap_sync_sms">Tap \'Sync SMS\' to import your bank transactions</string>
+</resources> 
