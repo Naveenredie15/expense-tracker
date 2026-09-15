@@ -71,6 +71,10 @@ interface TransactionDao {
     @Query("DELETE FROM transactions")
     suspend fun clearAllTransactions()
 
+    /** Delete only SMS-parsed rows; keep manually-entered ones (used on re-sync). */
+    @Query("DELETE FROM transactions WHERE isManual = 0")
+    suspend fun clearParsedTransactions()
+
     /** Bulk re-categorize (used when categories are merged/renamed). */
     @Query("UPDATE transactions SET category = :newCategory WHERE category = :oldCategory")
     suspend fun reassignCategory(oldCategory: String, newCategory: String)

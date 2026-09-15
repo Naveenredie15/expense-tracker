@@ -26,7 +26,12 @@ data class Transaction(
      * txn counts toward by N cycles (0 = the cycle its date falls in, -1 = previous,
      * +1 = next). Used when a bank posts a spend into an adjacent statement.
      */
-    val billingCycleShift: Int = 0
+    val billingCycleShift: Int = 0,
+    /**
+     * True when the user entered this transaction by hand (no SMS). Manual entries are
+     * preserved across re-syncs (which wipe and rebuild SMS-parsed transactions).
+     */
+    val isManual: Boolean = false
 )
 
 enum class TransactionType {

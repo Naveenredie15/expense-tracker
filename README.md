@@ -94,6 +94,12 @@ per-account and independently of account details.
 - **Per-payee learning** — when you re-categorize a transaction, the app remembers that
   payee's category and applies it on every future sync.
 
+### ➕ Manual entry
+Add a transaction by hand (a **`+`** button on the Transactions tab) for spends the bank
+never sent an SMS for — e.g. a card payment that only triggered an OTP. Minimal form:
+amount + type, with optional description (auto-categorized), account, and date. Manual
+entries are flagged and **preserved across re-syncs**.
+
 ### 🗂️ Full data control
 - Edit and re-categorize any transaction.
 - **Delete that stays deleted** — removed transactions won't reappear on the next sync

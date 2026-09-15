@@ -193,6 +193,23 @@ class TransactionsViewModel @Inject constructor(
         }
     }
     
+    /** Add a hand-entered transaction (for spends the bank never sent an SMS for). */
+    fun addManualTransaction(
+        amount: Double,
+        type: TransactionType,
+        description: String,
+        accountId: String?,
+        timestamp: Instant
+    ) {
+        viewModelScope.launch {
+            try {
+                transactionRepository.addManualTransaction(amount, type, description, accountId, timestamp)
+            } catch (e: Exception) {
+                _uiState.value = _uiState.value.copy(errorMessage = e.message)
+            }
+        }
+    }
+
     fun enterSelectionMode() {
         _uiState.value = _uiState.value.copy(isSelectionMode = true)
     }

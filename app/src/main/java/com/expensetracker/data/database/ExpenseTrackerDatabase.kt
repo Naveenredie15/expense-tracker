@@ -29,7 +29,7 @@ import com.expensetracker.data.entity.TransactionSplit
 
 @Database(
     entities = [Transaction::class, Category::class, Payee::class, Account::class, SmsTemplate::class, IgnoredTransaction::class, RecurringExpense::class, IgnoredSmsPattern::class, TransactionSplit::class],
-    version = 15,
+    version = 16,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -117,8 +117,15 @@ abstract class ExpenseTrackerDatabase : RoomDatabase() {
             }
         }
 
+        // v16: transactions.isManual (user-entered rows, preserved across re-syncs)
+        private val MIGRATION_15_16 = object : Migration(15, 16) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE transactions ADD COLUMN isManual INTEGER NOT NULL DEFAULT 0")
+            }
+        }
+
         private val ALL_MIGRATIONS =
-            arrayOf(MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11, MIGRATION_11_12, MIGRATION_12_13, MIGRATION_13_14, MIGRATION_14_15)
+            arrayOf(MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11, MIGRATION_11_12, MIGRATION_12_13, MIGRATION_13_14, MIGRATION_14_15, MIGRATION_15_16)
 
         fun getDatabase(context: Context): ExpenseTrackerDatabase {
             return INSTANCE ?: synchronized(this) {

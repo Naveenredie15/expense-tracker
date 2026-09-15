@@ -11,6 +11,7 @@ import com.expensetracker.data.entity.Payee
 import com.expensetracker.data.entity.Transaction
 import com.expensetracker.data.entity.TransactionSplit
 import com.expensetracker.data.entity.TransactionType
+import com.expensetracker.sms.TransactionCategorizer
 import java.util.UUID
 import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.Instant
@@ -182,7 +183,40 @@ class TransactionRepository @Inject constructor(
      * stay deleted.
      */
     suspend fun clearTransactionsKeepIgnored() {
-        transactionDao.clearAllTransactions()
+        // Keep manually-entered rows: they have no SMS to rebuild from.
+        transactionDao.clearParsedTransactions()
+    }
+
+    /**
+     * Add a hand-entered transaction (no SMS). Category is auto-derived from the
+     * description via the same keyword engine; the row is flagged [Transaction.isManual]
+     * so re-syncs preserve it. Inserted directly (bypasses SMS dedup/ignore).
+     */
+    suspend fun addManualTransaction(
+        amount: Double,
+        type: TransactionType,
+        description: String,
+        accountId: String?,
+        timestamp: Instant
+    ) {
+        val payee = description.trim().ifBlank { null }
+        val message = "Manual entry" + (payee?.let { ": $it" } ?: "") + " • Rs $amount"
+        val category = TransactionCategorizer().categorizeTransaction(payee, message, type)
+        transactionDao.insertTransaction(
+            Transaction(
+                sender = "MANUAL",
+                message = message,
+                amount = amount,
+                type = type,
+                payee = payee,
+                category = category,
+                timestamp = timestamp,
+                referenceId = null,
+                accountId = accountId,
+                isVerified = true,
+                isManual = true
+            )
+        )
     }
     
     // Smart categorization

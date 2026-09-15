@@ -27,6 +27,7 @@ import com.expensetracker.data.entity.TransactionType
 import com.expensetracker.data.entity.Category
 import com.expensetracker.ui.component.TransactionDetailsDialog
 import com.expensetracker.ui.component.CategorySelectionDialog
+import com.expensetracker.ui.component.AddTransactionDialog
 import com.expensetracker.ui.theme.*
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -43,7 +44,9 @@ fun TransactionsScreen(
     val accounts by viewModel.accounts.collectAsState()
     var selectedTransactionForDetails by remember { mutableStateOf(null as Transaction?) }
     var showDeleteConfirmation by remember { mutableStateOf(false) }
+    var showAddDialog by remember { mutableStateOf(false) }
 
+    Box(modifier = Modifier.fillMaxSize()) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -312,7 +315,31 @@ fun TransactionsScreen(
         
         item { Spacer(modifier = Modifier.height(100.dp)) }
     }
-    
+
+        // Add-transaction FAB (hidden during multi-select)
+        if (!uiState.isSelectionMode) {
+            FloatingActionButton(
+                onClick = { showAddDialog = true },
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(24.dp)
+            ) {
+                Icon(Icons.Filled.Add, contentDescription = "Add transaction")
+            }
+        }
+    }
+
+    if (showAddDialog) {
+        AddTransactionDialog(
+            accounts = accounts,
+            onDismiss = { showAddDialog = false },
+            onAdd = { amount, type, description, accountId, timestamp ->
+                viewModel.addManualTransaction(amount, type, description, accountId, timestamp)
+                showAddDialog = false
+            }
+        )
+    }
+
     // Delete confirmation dialog
     if (showDeleteConfirmation) {
         AlertDialog(
